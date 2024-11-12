@@ -169,6 +169,9 @@ if __name__ == '__main__':
     main(big_image_path, template_path)
 ```
 
+> 相关的代码和资源已开源至 GitHub：  
+> https://github.com/isHarryh/USTB-Term-Projects
+
 ### 3.2. 效果预览
 
 得到的结果矩阵如下：
