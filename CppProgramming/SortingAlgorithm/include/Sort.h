@@ -20,6 +20,7 @@ namespace SortingAlgorithm {
 		SortResult() = default;
 		void receive(number*, int);
 		void display();
+		bool verify();
 
 	private:
 		const int maxDisplay = 50;

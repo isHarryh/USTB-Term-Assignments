@@ -15,6 +15,7 @@ namespace SortingAlgorithm {
 
 	void SortResult::display() {
 		cout << "Result: " << "Sorted " << length << " items in " << elapsedTime << "s." << endl;
+		cout << "Verify: " << (verify() ? "Okay" : "Error") << endl;
 		cout << "Preview: ";
 		if (length > maxDisplay) {
 			for (int i = 0; i < maxDisplay / 2; i++) {
@@ -32,6 +33,17 @@ namespace SortingAlgorithm {
 			}
 			cout << endl;
 		}
+	}
+
+	bool SortResult::verify() {
+		number t = array[0];
+		for (int i = 1; i < length; i++) {
+			if (t > array[i]) {
+				return false;
+			}
+			t = array[i];
+		}
+		return true;
 	}
 
 	void Sort::swap(number* a, number* b) {

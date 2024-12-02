@@ -9,8 +9,7 @@
 #include "MergeSort.h"
 using namespace SortingAlgorithm;
 
-number* getRandomArray(int length, int seed = 0) {
-    srand(seed);
+number* getRandomArray(int length) {
     number* arr = new number[length];
     for (int i = 0; i < length; i++) {
         arr[i] = 1.0 * rand();
@@ -20,6 +19,8 @@ number* getRandomArray(int length, int seed = 0) {
 
 int main() {
     const int length = 32768;
+    const int seed = 0;
+    srand(seed);
     number* arr = getRandomArray(length);
 
     // Bubble Sort

@@ -20,7 +20,7 @@ namespace SortingAlgorithm {
 			number* right = partialSort(&array[lLength], rLength);
 
 			int i = 0, li = 0, ri = 0;
-			while (li < lLength && ri < lLength) {
+			while (li < lLength && ri < rLength) {
 				sorted[i++] = left[li] < right[ri] ? left[li++] : right[ri++];
 			}
 			while (li < lLength) {
@@ -29,6 +29,8 @@ namespace SortingAlgorithm {
 			while (ri < rLength) {
 				sorted[i++] = right[ri++];
 			}
+
+			delete left, right;
 		} else if (length == 2) {
 			sorted[0] = array[!(array[0] < array[1])];
 			sorted[1] = array[array[0] < array[1]];
