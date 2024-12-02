@@ -7,6 +7,7 @@
 #include "SelectionSort.h"
 #include "InsertionSort.h"
 #include "MergeSort.h"
+#include "QuickSort.h"
 using namespace SortingAlgorithm;
 
 number* getRandomArray(int length) {
@@ -45,6 +46,12 @@ int main() {
     {
         cout << "[Merge Sort]" << endl;
         SortResult result = MergeSort().apply(arr, length);
+        result.display();
+    }
+    // Quick Sort
+    {
+        cout << "[Quick Sort]" << endl;
+        SortResult result = QuickSort().apply(arr, length);
         result.display();
     }
 

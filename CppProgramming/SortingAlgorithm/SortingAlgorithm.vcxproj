@@ -126,6 +126,7 @@
     <ClCompile Include="src\SelectionSort.cpp" />
     <ClCompile Include="src\InsertionSort.cpp" />
     <ClCompile Include="src\MergeSort.cpp" />
+    <ClCompile Include="src\QuickSort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sort.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="include\SelectionSort.h" />
     <ClInclude Include="include\InsertionSort.h" />
     <ClInclude Include="include\MergeSort.h" />
+    <ClInclude Include="include\QuickSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
