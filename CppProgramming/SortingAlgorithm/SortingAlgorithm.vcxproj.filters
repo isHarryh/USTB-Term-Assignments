@@ -36,7 +36,7 @@
     <ClCompile Include="src\QuickSort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CountSort.cpp">
+    <ClCompile Include="src\CountingSort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\RadixSort.cpp">
@@ -62,7 +62,7 @@
     <ClInclude Include="include\QuickSort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\CountSort.h">
+    <ClInclude Include="include\CountingSort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\RadixSort.h">

@@ -7,7 +7,7 @@
 #include <map>
 
 namespace SortingAlgorithm {
-	class CountSort : public Sort {
+	class CountingSort : public Sort {
 	public:
 		SortResult apply(number*, int);
 	private:

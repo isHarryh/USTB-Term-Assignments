@@ -128,7 +128,7 @@
     <ClCompile Include="src\InsertionSort.cpp" />
     <ClCompile Include="src\MergeSort.cpp" />
     <ClCompile Include="src\QuickSort.cpp" />
-    <ClCompile Include="src\CountSort.cpp" />
+    <ClCompile Include="src\CountingSort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sort.h" />
@@ -137,7 +137,7 @@
     <ClInclude Include="include\InsertionSort.h" />
     <ClInclude Include="include\MergeSort.h" />
     <ClInclude Include="include\QuickSort.h" />
-    <ClInclude Include="include\CountSort.h" />
+    <ClInclude Include="include\CountingSort.h" />
     <ClInclude Include="include\RadixSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

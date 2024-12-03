@@ -8,7 +8,7 @@
 #include "InsertionSort.h"
 #include "MergeSort.h"
 #include "QuickSort.h"
-#include "CountSort.h"
+#include "CountingSort.h"
 #include "RadixSort.h"
 using namespace SortingAlgorithm;
 
@@ -56,10 +56,10 @@ int main() {
         SortResult result = QuickSort().apply(arr, length);
         result.display();
     }
-    // Count Sort
+    // Counting ort
     {
-        cout << "[Count Sort]" << endl;
-        SortResult result = CountSort().apply(arr, length);
+        cout << "[Counting Sort]" << endl;
+        SortResult result = CountingSort().apply(arr, length);
         result.display();
     }
     // Radix Sort
