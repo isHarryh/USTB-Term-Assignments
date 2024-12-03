@@ -9,6 +9,7 @@
 #include "MergeSort.h"
 #include "QuickSort.h"
 #include "CountSort.h"
+#include "RadixSort.h"
 using namespace SortingAlgorithm;
 
 number* getRandomArray(int length) {
@@ -59,6 +60,12 @@ int main() {
     {
         cout << "[Count Sort]" << endl;
         SortResult result = CountSort().apply(arr, length);
+        result.display();
+    }
+    // Radix Sort
+    {
+        cout << "[Radix Sort]" << endl;
+        SortResult result = RadixSort().apply(arr, length);
         result.display();
     }
 

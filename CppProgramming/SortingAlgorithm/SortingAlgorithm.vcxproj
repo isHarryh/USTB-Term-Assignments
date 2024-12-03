@@ -122,6 +122,7 @@
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\BubbleSort.cpp" />
+    <ClCompile Include="src\RadixSort.cpp" />
     <ClCompile Include="src\Sort.cpp" />
     <ClCompile Include="src\SelectionSort.cpp" />
     <ClCompile Include="src\InsertionSort.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="include\MergeSort.h" />
     <ClInclude Include="include\QuickSort.h" />
     <ClInclude Include="include\CountSort.h" />
+    <ClInclude Include="include\RadixSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
