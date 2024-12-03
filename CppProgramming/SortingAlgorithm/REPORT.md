@@ -552,4 +552,4 @@ Preview: 1 1 2 3 4 4 6 6 7 7 8 9 10 10 12 12 13 14 16 16 19 21 22 22 23 ... 3274
 
 -----
 
-> 相关代码已开源至 GitHub： https://github.com/isHarryh/USTB-Term-Projects/tree/main/CppProgramming/SortingAlgorithm
+> 相关代码已开源至 GitHub： https://github.com/isHarryh/USTB-Term-Assignments/tree/main/CppProgramming/SortingAlgorithm

@@ -170,7 +170,7 @@ if __name__ == '__main__':
 ```
 
 > 相关的代码和资源已开源至 GitHub：  
-> https://github.com/isHarryh/USTB-Term-Projects
+> https://github.com/isHarryh/USTB-Term-Assignments
 
 ### 3.2. 效果预览
 

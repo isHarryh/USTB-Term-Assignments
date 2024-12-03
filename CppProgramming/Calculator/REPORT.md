@@ -132,4 +132,4 @@ Error: Numerical overflowed!
 
 本计算器程序功能完善，代码编写成熟，代码样式良好，具有高度的健壮性和用户友好性，同时代码的模块化设计便于维护与扩展。
 
-> 相关代码已开源至 GitHub： https://github.com/isHarryh/USTB-Term-Projects/tree/main/CppProgramming/Calculator
+> 相关代码已开源至 GitHub： https://github.com/isHarryh/USTB-Term-Assignments/tree/main/CppProgramming/Calculator
