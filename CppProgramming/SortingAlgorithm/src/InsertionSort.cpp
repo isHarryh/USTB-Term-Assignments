@@ -15,6 +15,9 @@ namespace SortingAlgorithm {
 					swap(&array[k], &array[j]);
 					k = j;
 				}
+				else {
+					break;
+				}
 			}
 		}
 

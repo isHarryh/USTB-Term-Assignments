@@ -7,9 +7,9 @@
 
 namespace SortingAlgorithm {
 	SortResult RadixSort::apply(number* rawArray, int length) {
+		number* array = copyArray(rawArray, length);
 		SortResult result = SortResult();
 
-		number* array = copyArray(rawArray, length);
 		vector<vector<number>> buckets = vector<vector<number>>(19);
 		int exp = 0;
 		while (buckets[9].size() < length) {
