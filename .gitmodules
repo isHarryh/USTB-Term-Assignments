@@ -1,0 +1,3 @@
+[submodule "CppProgramming/RaylibTest/lib/raylib"]
+	path = CppProgramming/RaylibTest/lib/raylib
+	url = https://github.com/raysan5/raylib
