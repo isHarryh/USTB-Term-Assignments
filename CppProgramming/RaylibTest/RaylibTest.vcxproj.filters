@@ -18,5 +18,31 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\InspectorView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Plane.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Train.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\InspectorView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Plane.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Train.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
