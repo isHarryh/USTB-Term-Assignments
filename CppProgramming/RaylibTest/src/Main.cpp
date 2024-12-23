@@ -42,7 +42,7 @@ int main() {
 				obj = new Train(DARKGREEN);
 			}
 			if (obj != nullptr) {
-				obj->setScale(0.3);
+				obj->setScale(0.25);
 				view = new InspectorView(obj);
 			}
 		} else {

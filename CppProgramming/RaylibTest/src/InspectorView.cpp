@@ -6,7 +6,7 @@
 #define W 800
 #define H 450
 #define STEP_P 5
-#define STEP_S 0.02
+#define STEP_S 0.01
 
 namespace RaylibTest {
 	InspectorView::InspectorView(GameObject* obj) {
