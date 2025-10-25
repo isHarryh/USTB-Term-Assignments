@@ -57,68 +57,21 @@
 
 %% Title, authors and addresses
 
-%% use the tnoteref command within \title for footnotes;
-%% use the tnotetext command for theassociated footnote;
-%% use the fnref command within \author or \affiliation for footnotes;
-%% use the fntext command for theassociated footnote;
-%% use the corref command within \author for corresponding author footnotes;
-%% use the cortext command for theassociated footnote;
-%% use the ead command for the email address,
-%% and the form \ead[url] for the home page:
-%% \title{Title\tnoteref{label1}}
-%% \tnotetext[label1]{}
-%% \author{Name\corref{cor1}\fnref{label2}}
-%% \ead{email address}
-%% \ead[url]{home page}
-%% \fntext[label2]{}
-%% \cortext[cor1]{}
-%% \affiliation{organization={},
-%%             addressline={},
-%%             city={},
-%%             postcode={},
-%%             state={},
-%%             country={}}
-%% \fntext[label3]{}
-
 \title{Neural Network-Based Research Interest Prediction from Academic Publications}
 
-%% use optional labels to link authors explicitly to addresses:
-%% \author[label1,label2]{}
-%% \affiliation[label1]{organization={},
-%%             addressline={},
-%%             city={},
-%%             postcode={},
-%%             state={},
-%%             country={}}
-%%
-%% \affiliation[label2]{organization={},
-%%             addressline={},
-%%             city={},
-%%             postcode={},
-%%             state={},
-%%             country={}}
-
-\author{Yuteng Huang} %% Author name
+%% Author name
+\author{Yuteng Huang}
 
 %% Author affiliation
 \affiliation{}
 
-% %% Author affiliation
-% \affiliation{organization={},%Department and Organization
-%             addressline={},
-%             city={},
-%             postcode={},
-%             state={},
-%             country={}}
-
 %% Abstract
 \begin{abstract}
-The exponential growth of academic publications necessitates automated systems for researcher interest profiling.
+The growth of academic publications necessitates automated systems for researcher interest profiling.
 This paper presents a neural network-based approach for predicting scholars' research interests by analyzing their publication metadata.
 Our system processes 500k research papers, employing TF-IDF feature engineering with author position weighting and citation analysis.
 We design a deep neural network architecture with soft label encoding to capture multi-interest preferences.
 Experimental results demonstrate competitive performance, achieving 31.33\% top-5 accuracy.
-The system provides an effective solution for academic profiling and research trend analysis.
 \end{abstract}
 
 % %%Graphical abstract
@@ -134,7 +87,7 @@ The system provides an effective solution for academic profiling and research tr
 
 %% Keywords
 \begin{keyword}
-research interest prediction \sep academic profiling \sep neural networks \sep TF-IDF \sep multi-label classification \sep natural language processing
+research interest prediction \sep academic profiling \sep neural networks \sep TF-IDF \sep natural language processing
 \end{keyword}
 
 \end{frontmatter}
@@ -148,15 +101,19 @@ research interest prediction \sep academic profiling \sep neural networks \sep T
 \section{Introduction}
 \label{sec1}
 
-The rapid growth of academic publications has created a pressing need for automated systems that can accurately identify researchers' interests based on their publication records. Traditional manual categorization methods are time-consuming and subjective, making automated approaches essential for large-scale academic profiling. This paper presents a neural network-based system for predicting scholars' research interests by analyzing their paper metadata, including titles, venues, and authorship information.
+The rapid growth of academic publications has created a pressing need for automated systems that can accurately identify researchers' interests based on their publication records.
+Traditional manual categorization methods are time-consuming and subjective, making automated approaches essential for large-scale academic profiling.
+This paper presents a neural network-based system for predicting scholars' research interests by analyzing their paper metadata, including titles, venues, and authorship information.
 
-The core challenge lies in transforming heterogeneous academic data into meaningful feature representations that capture the essence of a researcher's work. Our approach leverages natural language processing techniques and deep learning to build a robust multi-label classification system that can predict researchers' top interests with competitive accuracy.
+The core challenge lies in transforming heterogeneous academic data into meaningful feature representations that capture the essence of a researcher's work.
+Our approach leverages natural language processing techniques and deep learning to build a robust multi-label classification system that can predict researchers' top interests with competitive accuracy.
 
 \section{Data Processing and Feature Engineering}
 \label{sec2}
 
 \subsection{Dataset Description}
-Our system utilizes a comprehensive academic dataset comprising 500,000 research papers with detailed metadata. The training set contains 6,000 author-interest pairs, while the validation set includes 4,000 samples. Each author is associated with multiple research interests ranked by relevance.
+Our system utilizes a comprehensive academic dataset comprising 500k research papers with detailed metadata.
+The training set contains 6,000 author-interest pairs, while the validation set includes 4,000 samples. Each author is associated with multiple research interests ranked by relevance.
 
 The dataset structure includes:
 \begin{itemize}
