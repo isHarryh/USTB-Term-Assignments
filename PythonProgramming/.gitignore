@@ -1,0 +1,12 @@
+.venv/
+data/
+
+*.pdf
+*.aux
+*.bbl
+*.blg
+*.fdb*
+*.fls
+*.log
+*.spl
+*.synctex*
