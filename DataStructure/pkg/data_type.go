@@ -14,3 +14,13 @@ func (v IntValue) Equals(other any) bool {
 	}
 	return false
 }
+
+// StringValue is a simple wrapper for string that implements Equalable.
+type StringValue string
+
+func (v StringValue) Equals(other any) bool {
+	if otherValue, ok := other.(StringValue); ok {
+		return v == otherValue
+	}
+	return false
+}
