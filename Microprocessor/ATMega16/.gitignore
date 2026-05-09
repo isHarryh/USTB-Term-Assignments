@@ -1,0 +1,10 @@
+backup/
+*.cof
+*.dbg
+*.hex
+*.lk
+*.lst
+*.mak
+*.mp
+*.lis
+*.o
