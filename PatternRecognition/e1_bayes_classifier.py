@@ -2,10 +2,8 @@ import pandas as pd
 import math
 import random
 
-# 读入数据集的数据
-# path ="C:\\Users\\payne\\Desktop\\banana.dat"
 path = "banana.dat"
-data = pd.read_table(path, header=None, skiprows=7, sep="\s+")
+data = pd.read_table(path, header=None, skiprows=7, sep=r"\s+")
 
 pos_count = 0
 neg_count = 0

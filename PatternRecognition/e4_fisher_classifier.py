@@ -110,7 +110,7 @@ if __name__ == "__main__":
     plt.scatter(np.array(w1[:, 0]), np.array(w1[:, 1]), c="r")
     plt.scatter(np.array(w2[:, 0]), np.array(w2[:, 1]), c="b")
 
-    x_test = np.mat([[1, 1.5], [1.2, 1.0], [2.0, 0.9], [1.2, 1.5], [0.23, 2.33]])
+    x_test = np.asmatrix([[1, 1.5], [1.2, 1.0], [2.0, 0.9], [1.2, 1.5], [0.23, 2.33]])
     for i in range(x_test.shape[0]):
         res = W * x_test[i].T + W0
         if res > 0:
