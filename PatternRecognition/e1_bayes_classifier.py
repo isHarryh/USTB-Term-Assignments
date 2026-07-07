@@ -2,10 +2,10 @@ import pandas as pd
 import math
 import random
 
-#读入数据集的数据
+# 读入数据集的数据
 # path ="C:\\Users\\payne\\Desktop\\banana.dat"
-path = 'banana.dat'
-data = pd.read_table(path,header=None,skiprows=7,sep="\s+")
+path = "banana.dat"
+data = pd.read_table(path, header=None, skiprows=7, sep="\s+")
 
 pos_count = 0
 neg_count = 0
@@ -24,11 +24,13 @@ for row in data.values:
 p_pos = pos_count / len(data)
 p_neg = neg_count / len(data)
 
+
 def parzen(a, h, x):
     r = 0
     for val in a:
-        r += math.exp(-(x - val) ** 2 / (2 * h ** 2)) / (math.sqrt(2 * math.pi) * h)
+        r += math.exp(-((x - val) ** 2) / (2 * h**2)) / (math.sqrt(2 * math.pi) * h)
     return r / len(a)
+
 
 # dnum = 0.25
 dnum = random.uniform(-3.09, 3.19)
