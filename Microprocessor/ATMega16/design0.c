@@ -9,11 +9,13 @@ void main()
     LEDON();
     SEGOFF();
 
+    DDRB = 0xFF;
+    PORTB = 0x00;
+    Delayms(1000);
+    PORTB = 0xFF;
+
     DDRD &= ~BIT(0);
     PORTD &= ~BIT(0);
-
-    DDRB |= BIT(7);
-    PORTB |= BIT(7);
 
     while (1)
     {
