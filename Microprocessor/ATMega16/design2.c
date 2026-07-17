@@ -8,7 +8,7 @@
 #define LEN_8 8
 #define LEN_16 16
 
-#define DEFAULT_BPM 130
+#define DEFAULT_BPM 120
 
 /* sounding duration = score duration * NOTE_PLAY_NUM / NOTE_PLAY_DEN */
 #define NOTE_PLAY_NUM 1
@@ -103,7 +103,7 @@ void main()
 void beep_init(void)
 {
     DDRA |= BIT(BEEP);
-    PORTA &= ~BIT(BEEP);
+    PORTA |= BIT(BEEP);
 
     TCCR1A = 0x00;
     TCCR1B = 0x00;
@@ -115,10 +115,15 @@ void beep_init(void)
 
 void beep_stop(void)
 {
-    TCCR1B = 0x00;
+    uchar sreg;
+
+    sreg = SREG;
+    SREG &= ~BIT(7);
     TIMSK &= ~BIT(OCIE1A);
+    TCCR1B = 0x00;
     TIFR |= BIT(OCF1A);
-    PORTA &= ~BIT(BEEP);
+    PORTA |= BIT(BEEP);
+    SREG = sreg;
 }
 
 void beep_set_bpm(uint bpm)
