@@ -8,7 +8,11 @@
 #define LEN_8 8
 #define LEN_16 16
 
-#define DEFAULT_BPM 120
+#define DEFAULT_BPM 130
+
+/* sounding duration = score duration * NOTE_PLAY_NUM / NOTE_PLAY_DEN */
+#define NOTE_PLAY_NUM 1
+#define NOTE_PLAY_DEN 2
 
 static uint g_bpm = DEFAULT_BPM;
 
@@ -176,6 +180,7 @@ void beep_play_score_text(const char *score)
     uint pitch;
     uint len;
     uint duration_ms;
+    uint sound_ms;
     uchar dotted;
 
     while (*s != '\0')
@@ -235,6 +240,21 @@ void beep_play_score_text(const char *score)
         if (dotted)
             duration_ms += duration_ms / 2;
 
-        beep_play(pitch, duration_ms);
+        if (pitch == ZERO)
+        {
+            beep_play(ZERO, duration_ms);
+        }
+        else
+        {
+            sound_ms = (uint)((unsigned long)duration_ms * NOTE_PLAY_NUM / NOTE_PLAY_DEN);
+            if (sound_ms > duration_ms)
+                sound_ms = duration_ms;
+
+            beep_play(pitch, sound_ms);
+            if (duration_ms > sound_ms)
+                beep_play(ZERO, duration_ms - sound_ms);
+        }
     }
+
+    beep_stop();
 }
