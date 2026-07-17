@@ -8,13 +8,27 @@
 #define LEN_8 8
 #define LEN_16 16
 
-#define DEFAULT_BPM 120
-
 /* sounding duration = score duration * NOTE_PLAY_NUM / NOTE_PLAY_DEN */
 #define NOTE_PLAY_NUM 1
 #define NOTE_PLAY_DEN 2
 
-static uint g_bpm = DEFAULT_BPM;
+typedef struct
+{
+    const char *text;
+    uint bpm;
+} Score;
+
+static const Score SCORE_OLD = {
+    "E8E8 ^E8^E4^E4E8E8E8 B8.A8.A4B808E8 ^E8^E4^E4E8E8E8 B8.A8.A4B808E8",
+    120};
+
+static const Score SCORE_NEW = {
+    "_A8E8E8E8 E4.D8 C8.D16C8_B8 _A2 A8A8A8A8 A4.G8 E8G8G8F#4 E2",
+    80};
+
+#define ACTIVE_SCORE SCORE_NEW
+
+static uint g_bpm = 120;
 
 void beep_init(void);
 void beep_stop(void);
@@ -22,6 +36,7 @@ void beep_set_bpm(uint bpm);
 uint beep_get_bpm(void);
 uint beep_len_to_ms(uchar len);
 void beep_play(uint pitch, uint duration_ms);
+void beep_play_score(const Score *score);
 void beep_play_score_text(const char *score);
 
 #pragma interrupt_handler TIMER1_COMPA_ISR:7
@@ -30,71 +45,57 @@ void TIMER1_COMPA_ISR(void)
     PORTA ^= BIT(BEEP);
 }
 
-static uint pitch_from_name(char name, uchar high_octave)
+static uint pitch_from_semitone(uchar semi, uchar octave)
 {
-    uint pitch;
+    static const uint table_low[12] = {
+        DO_L, DOA_L, RE_L, REA_L, MI_L, FA_L,
+        FAA_L, SO_L, SOA_L, LA_L, LAA_L, TI_L};
+    static const uint table_mid[12] = {
+        DO, DOA, RE, REA, MI, FA,
+        FAA, SO, SOA, LA, LAA, TI};
+    static const uint table_high[12] = {
+        DO_H, DOA_H, RE_H, REA_H, MI_H, FA_H,
+        FAA_H, SO_H, SOA_H, LA_H, LAA_H, TI_H};
 
+    if (semi >= 12)
+        return ZERO;
+
+    if (octave == 0)
+        return table_low[semi];
+    if (octave == 2)
+        return table_high[semi];
+    return table_mid[semi];
+}
+
+static uchar name_to_semi(char name)
+{
     switch (name)
     {
     case 'C':
-        pitch = DO;
-        break;
+        return 0;
     case 'D':
-        pitch = RE;
-        break;
+        return 2;
     case 'E':
-        pitch = MI;
-        break;
+        return 4;
     case 'F':
-        pitch = FA;
-        break;
+        return 5;
     case 'G':
-        pitch = SO;
-        break;
+        return 7;
     case 'A':
-        pitch = LA;
-        break;
+        return 9;
     case 'B':
-        pitch = TI;
-        break;
+        return 11;
     default:
-        return ZERO;
+        return 0xFF;
     }
-
-    if (high_octave)
-    {
-        switch (name)
-        {
-        case 'C':
-            return DO_H;
-        case 'D':
-            return RE_H;
-        case 'E':
-            return MI_H;
-        case 'F':
-            return FA_H;
-        case 'G':
-            return SO_H;
-        case 'A':
-            return LA_H;
-        case 'B':
-            return TI_H;
-        }
-    }
-
-    return pitch;
 }
 
 void main()
 {
-    static const char score[] =
-        "E8E8 ^E8^E4^E4E8E8E8 B8.A8.A4B8_8E8 ^E8^E4^E4E8E8E8 B8.A8.A4B8_8E8";
-
     SEGOFF();
     LEDOFF();
     beep_init();
-    beep_set_bpm(DEFAULT_BPM);
-    beep_play_score_text(score);
+    beep_play_score(&ACTIVE_SCORE);
 
     while (1)
         ;
@@ -177,11 +178,22 @@ void beep_play(uint pitch, uint duration_ms)
     beep_stop();
 }
 
+void beep_play_score(const Score *score)
+{
+    if (score == 0 || score->text == 0)
+        return;
+
+    beep_set_bpm(score->bpm);
+    beep_play_score_text(score->text);
+}
+
 void beep_play_score_text(const char *score)
 {
     const char *s = score;
-    uchar high_octave;
+    uchar octave;
     char name;
+    uchar semi;
+    int accidental;
     uint pitch;
     uint len;
     uint duration_ms;
@@ -196,32 +208,51 @@ void beep_play_score_text(const char *score)
         if (*s == '\0')
             break;
 
-        high_octave = 0;
-        if (*s == '^')
+        if (*s == '0')
         {
-            high_octave = 1;
             s++;
-        }
-
-        if (*s == '_')
-        {
             pitch = ZERO;
-            s++;
         }
         else
         {
+            octave = 1;
+            if (*s == '^')
+            {
+                octave = 2;
+                s++;
+            }
+            else if (*s == '_')
+            {
+                octave = 0;
+                s++;
+            }
+
             name = *s;
             if (name >= 'a' && name <= 'z')
                 name = (char)(name - 'a' + 'A');
 
-            if (name < 'A' || name > 'G')
+            semi = name_to_semi(name);
+            if (semi == 0xFF)
             {
                 s++;
                 continue;
             }
-
-            pitch = pitch_from_name(name, high_octave);
             s++;
+
+            accidental = 0;
+            if (*s == '#')
+            {
+                accidental = 1;
+                s++;
+            }
+            else if (*s == 'b')
+            {
+                accidental = -1;
+                s++;
+            }
+
+            semi = (uchar)((semi + accidental + 12) % 12);
+            pitch = pitch_from_semitone(semi, octave);
         }
 
         if (*s < '0' || *s > '9')
