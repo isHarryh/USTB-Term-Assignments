@@ -9,8 +9,8 @@
 #define LEN_16 16
 
 /* sounding duration = score duration * NOTE_PLAY_NUM / NOTE_PLAY_DEN */
-#define NOTE_PLAY_NUM 1
-#define NOTE_PLAY_DEN 2
+#define NOTE_PLAY_NUM 2
+#define NOTE_PLAY_DEN 3
 
 typedef struct
 {
@@ -23,7 +23,7 @@ static const Score SCORE_OLD = {
     120};
 
 static const Score SCORE_NEW = {
-    "_A8E8E8E8 E4.D8 C8.D16C8_B8 _A2 A8A8A8A8 A4.G8 E8G8G8F#4 E2",
+    "_A8E8E8E8 E4.D8 C8.D16C8_B8 _A2 A8A8A8A8 A4.G8 E8G8G8F#8 E2",
     80};
 
 #define ACTIVE_SCORE SCORE_NEW

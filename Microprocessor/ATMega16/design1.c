@@ -16,6 +16,16 @@
 void motor_start(void);
 void motor_stop(void);
 void servo_write(uint pulse_us);
+void beep_init(void);
+void beep_stop(void);
+void beep_play(uint pitch, uint duration_ms);
+void play_welcome(void);
+
+#pragma interrupt_handler TIMER1_COMPA_ISR:7
+void TIMER1_COMPA_ISR(void)
+{
+    PORTA ^= BIT(BEEP);
+}
 
 void main()
 {
@@ -32,6 +42,9 @@ void main()
 
     DDRD &= ~(BIT(0) | BIT(1));
     PORTD &= ~(BIT(0) | BIT(1));
+
+    beep_init();
+    play_welcome();
 
     while (1)
     {
@@ -95,4 +108,70 @@ void servo_write(uint pulse_us)
 
     Delayms(18);
     Delayus(SERVO_RIGHT_US - pulse_us);
+}
+
+void beep_init(void)
+{
+    DDRA |= BIT(BEEP);
+    PORTA |= BIT(BEEP);
+
+    TCCR1A = 0x00;
+    TCCR1B = 0x00;
+    TCNT1 = 0;
+    OCR1A = 0;
+    TIFR |= BIT(OCF1A);
+    TIMSK &= ~BIT(OCIE1A);
+}
+
+void beep_stop(void)
+{
+    uchar sreg;
+
+    sreg = SREG;
+    SREG &= ~BIT(7);
+    TIMSK &= ~BIT(OCIE1A);
+    TCCR1B = 0x00;
+    TIFR |= BIT(OCF1A);
+    PORTA |= BIT(BEEP);
+    SREG = sreg;
+}
+
+void beep_play(uint pitch, uint duration_ms)
+{
+    uint half_ticks;
+
+    if (duration_ms == 0)
+        return;
+
+    if (pitch == ZERO)
+    {
+        beep_stop();
+        Delayms(duration_ms);
+        return;
+    }
+
+    half_ticks = 65536U - pitch;
+    if (half_ticks == 0)
+        half_ticks = 1;
+
+    beep_stop();
+
+    TCNT1 = 0;
+    OCR1A = half_ticks - 1;
+    TIFR |= BIT(OCF1A);
+    TIMSK |= BIT(OCIE1A);
+    SREG |= BIT(7);
+    TCCR1B = (1 << WGM12) | (1 << CS11);
+
+    Delayms(duration_ms);
+    beep_stop();
+}
+
+void play_welcome(void)
+{
+    beep_play(DO, 250);
+    beep_play(MI, 250);
+    beep_play(SO, 250);
+    beep_play(DO_H, 250);
+    beep_stop();
 }
