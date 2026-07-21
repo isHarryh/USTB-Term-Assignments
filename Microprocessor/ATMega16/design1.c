@@ -2,8 +2,9 @@
 #include <macros.h>
 #include <AVR_HJ-2G.H>
 
-#define LEFT_DETECTED ((PIND & BIT(0)) != 0)
-#define RIGHT_DETECTED ((PIND & BIT(1)) != 0)
+// != 0 means high-voltage trigger, == 0 means low-voltage trigger
+#define LEFT_DETECTED ((PIND & BIT(1)) != 0)
+#define RIGHT_DETECTED ((PIND & BIT(2)) != 0)
 
 #define SERVO_LEFT_US 1000
 #define SERVO_CENTER_US 1500
