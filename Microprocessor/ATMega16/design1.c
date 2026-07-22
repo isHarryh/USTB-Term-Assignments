@@ -18,9 +18,8 @@
 #define SPEED_MED 1
 #define SPEED_HIGH 2
 
-static volatile uchar g_speed = SPEED_HIGH;
-static volatile uchar motor_on = 0;
-static volatile uchar pwm_cycle = 0;
+static uchar g_speed = SPEED_HIGH;
+static uchar motor_on = 0;
 
 static const uchar speed_duty[] = {25, 60, 100};
 
@@ -32,32 +31,11 @@ void beep_stop(void);
 void beep_play(uint pitch, uint duration_ms);
 void play_welcome(void);
 void play_speed_beep(void);
-void speed_init(void);
 
 #pragma interrupt_handler TIMER1_COMPA_ISR:7
 void TIMER1_COMPA_ISR(void)
 {
     PORTA ^= BIT(BEEP);
-}
-
-#pragma interrupt_handler TIMER0_COMP_ISR:10
-void TIMER0_COMP_ISR(void)
-{
-    if (motor_on)
-    {
-        if (pwm_cycle < speed_duty[g_speed])
-            PORTB |= BIT(1);
-        else
-            PORTB &= ~BIT(1);
-
-        pwm_cycle++;
-        if (pwm_cycle >= 100)
-            pwm_cycle = 0;
-    }
-    else
-    {
-        PORTB &= ~BIT(1);
-    }
 }
 
 void main()
@@ -79,7 +57,6 @@ void main()
     PORTD |= BIT(3);
 
     beep_init();
-    speed_init();
     play_welcome();
 
     while (1)
@@ -150,17 +127,35 @@ void motor_stop(void)
 {
     motor_on = 0;
     PORTB &= ~(BIT(1) | BIT(2));
-    pwm_cycle = 0;
 }
 
 void servo_write(uint pulse_us)
 {
+    uchar i;
+
     PORTB |= BIT(0);
     Delayus(pulse_us);
     PORTB &= ~BIT(0);
 
-    Delayms(18);
-    Delayus(SERVO_RIGHT_US - pulse_us);
+    if (motor_on)
+    {
+        uint on_us = (uint)speed_duty[g_speed] * 5;
+        uint off_us = 500 - on_us;
+
+        for (i = 0; i < 36; i++)
+        {
+            if (on_us > 0)
+                PORTB |= BIT(1);
+            Delayus(on_us);
+            PORTB &= ~BIT(1);
+            Delayus(off_us);
+        }
+    }
+    else
+    {
+        Delayms(18);
+        Delayus(SERVO_RIGHT_US - pulse_us);
+    }
 }
 
 void beep_init(void)
@@ -227,15 +222,6 @@ void play_welcome(void)
     beep_play(SO, 250);
     beep_play(DO_H, 250);
     beep_stop();
-}
-
-void speed_init(void)
-{
-    TIFR |= BIT(OCF0) | BIT(TOV0);
-    TIMSK |= BIT(OCIE0);
-    SREG |= BIT(7);
-    TCCR0 = (1 << WGM01) | (1 << CS01);
-    OCR0 = 99;
 }
 
 void play_speed_beep(void)
