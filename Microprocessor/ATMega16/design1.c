@@ -2,9 +2,9 @@
 #include <macros.h>
 #include <AVR_HJ-2G.H>
 
-// != 0 means high-voltage trigger, == 0 means low-voltage trigger
 #define LEFT_DETECTED ((PIND & BIT(1)) == 0)
 #define RIGHT_DETECTED ((PIND & BIT(2)) == 0)
+#define KEY_SPEED_DOWN ((PIND & BIT(3)) == 0)
 
 #define SERVO_LEFT_US 1000
 #define SERVO_CENTER_US 1500
@@ -14,6 +14,16 @@
 #define SWEEP_LEFT 0
 #define SWEEP_RIGHT 1
 
+#define SPEED_LOW 0
+#define SPEED_MED 1
+#define SPEED_HIGH 2
+
+static volatile uchar g_speed = SPEED_HIGH;
+static volatile uchar motor_on = 0;
+static volatile uchar pwm_cycle = 0;
+
+static const uchar speed_duty[] = {25, 60, 100};
+
 void motor_start(void);
 void motor_stop(void);
 void servo_write(uint pulse_us);
@@ -21,11 +31,33 @@ void beep_init(void);
 void beep_stop(void);
 void beep_play(uint pitch, uint duration_ms);
 void play_welcome(void);
+void play_speed_beep(void);
+void speed_init(void);
 
 #pragma interrupt_handler TIMER1_COMPA_ISR:7
 void TIMER1_COMPA_ISR(void)
 {
     PORTA ^= BIT(BEEP);
+}
+
+#pragma interrupt_handler TIMER0_COMP_ISR:10
+void TIMER0_COMP_ISR(void)
+{
+    if (motor_on)
+    {
+        if (pwm_cycle < speed_duty[g_speed])
+            PORTB |= BIT(1);
+        else
+            PORTB &= ~BIT(1);
+
+        pwm_cycle++;
+        if (pwm_cycle >= 100)
+            pwm_cycle = 0;
+    }
+    else
+    {
+        PORTB &= ~BIT(1);
+    }
 }
 
 void main()
@@ -34,6 +66,7 @@ void main()
     uchar sweep_direction = SWEEP_RIGHT;
     uchar left_detected;
     uchar right_detected;
+    uchar key_prev = 1;
 
     SEGOFF();
     LEDOFF();
@@ -41,10 +74,12 @@ void main()
     DDRB |= BIT(0) | BIT(1) | BIT(2);
     PORTB &= ~(BIT(0) | BIT(1) | BIT(2));
 
-    DDRD &= ~(BIT(0) | BIT(1));
+    DDRD &= ~(BIT(0) | BIT(1) | BIT(3));
     PORTD &= ~(BIT(0) | BIT(1));
+    PORTD |= BIT(3);
 
     beep_init();
+    speed_init();
     play_welcome();
 
     while (1)
@@ -86,19 +121,36 @@ void main()
             }
         }
 
+        if (KEY_SPEED_DOWN && key_prev)
+        {
+            Delayms(20);
+            if (KEY_SPEED_DOWN)
+            {
+                while (KEY_SPEED_DOWN)
+                    ;
+                g_speed++;
+                if (g_speed > SPEED_HIGH)
+                    g_speed = SPEED_LOW;
+                play_speed_beep();
+            }
+        }
+        key_prev = KEY_SPEED_DOWN;
+
         servo_write(servo_pulse);
     }
 }
 
 void motor_start(void)
 {
-    PORTB |= BIT(1);
     PORTB &= ~BIT(2);
+    motor_on = 1;
 }
 
 void motor_stop(void)
 {
+    motor_on = 0;
     PORTB &= ~(BIT(1) | BIT(2));
+    pwm_cycle = 0;
 }
 
 void servo_write(uint pulse_us)
@@ -175,4 +227,27 @@ void play_welcome(void)
     beep_play(SO, 250);
     beep_play(DO_H, 250);
     beep_stop();
+}
+
+void speed_init(void)
+{
+    TIFR |= BIT(OCF0) | BIT(TOV0);
+    TIMSK |= BIT(OCIE0);
+    SREG |= BIT(7);
+    TCCR0 = (1 << WGM01) | (1 << CS01);
+    OCR0 = 99;
+}
+
+void play_speed_beep(void)
+{
+    uint pitch;
+
+    if (g_speed == SPEED_LOW)
+        pitch = DO_L;
+    else if (g_speed == SPEED_MED)
+        pitch = DO;
+    else
+        pitch = DO_H;
+
+    beep_play(pitch, 80);
 }
