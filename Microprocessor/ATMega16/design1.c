@@ -21,7 +21,7 @@
 static uchar g_speed = SPEED_HIGH;
 static uchar motor_on = 0;
 
-static const uchar speed_duty[] = {25, 60, 100};
+static const uchar speed_duty[] = {40, 70, 100};
 
 void motor_start(void);
 void motor_stop(void);
