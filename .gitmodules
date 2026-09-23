@@ -4,3 +4,6 @@
 [submodule "CppProgramming/RaylibTest/lib/raygui"]
 	path = CppProgramming/RaylibTest/lib/raygui
 	url = https://github.com/raysan5/raygui
+[submodule "AI-Practice"]
+	path = AI-Practice
+	url = https://github.com/gldjy/AI-Practice-Lesson
