@@ -1,0 +1,6 @@
+set_property PACKAGE_PIN P17 [get_ports clk_100M]
+set_property PACKAGE_PIN K2 [get_ports led]
+set_property PACKAGE_PIN R1 [get_ports rst_n]
+set_property IOSTANDARD LVCMOS33 [get_ports clk_100M]
+set_property IOSTANDARD LVCMOS33 [get_ports led]
+set_property IOSTANDARD LVCMOS33 [get_ports rst_n]
