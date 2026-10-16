@@ -7,3 +7,6 @@
 [submodule "AI-Practice"]
 	path = AI-Practice
 	url = https://github.com/gldjy/AI-Practice-Lesson
+[submodule "FineTune-Practice"]
+	path = FineTune-Practice
+	url = https://github.com/gldjy/FineTune-Practice-Lesson.git
