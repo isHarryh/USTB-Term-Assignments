@@ -1,0 +1,17 @@
+# Converted images
+pages/
+
+# Complied files
+*.exe
+*.ilk
+*.obj
+*.pdb
+
+# Printed documents
+*.html
+*.pdf
+~*
+
+# Packed files
+*.zip
+*.7z
