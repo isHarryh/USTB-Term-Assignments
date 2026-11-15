@@ -1,5 +1,6 @@
 # Converted images
 pages/
+p*.jpg
 
 # Complied files
 *.exe
@@ -15,3 +16,9 @@ pages/
 # Packed files
 *.zip
 *.7z
+*.tar.gz
+
+# Experiment data
+data/
+checkpoints/
+dist/
